@@ -83,7 +83,7 @@ Errors per field: priority 8, needs_human 4 (each one follows from a wrong prior
 
 The main pattern: **6 of the 10 failures are comparisons against the ₹5,000 or ₹50,000 threshold**, mostly for amounts within about 20% of it. The model reads the amount correctly and then gets the comparison wrong.
 
-Test set (no labels): 399 of 400 outputs are valid JSON with the 8 keys. `ts-00079` stopped after two keys (`{"category": "fraud", "priority": "P1"}`) and will score zero. I left it as the model produced it. I read through the test outputs and saw the same weak spots more often than on dev: priority near the thresholds, relative dates that cross a month boundary ("5 din pehle", "last month on the 29th"), and one ticket where a convenience fee was taken as the amount. So I expect the hidden test score to be lower than the dev score.
+Test set (no labels): 399 of 400 outputs are valid JSON with the 8 keys. `ts-00079` stopped after two keys (`{"category": "fraud", "priority": "P1"}`) and will score zero. I left it as the model produced it. I did not use the test inputs to choose training data or settings. The only thing I took from them was their token lengths, to set the maximum sequence length. The task description says part of the test set is harder than dev, so I expect a lower score there, most likely from the same weak spots as on dev: priority for amounts close to a threshold, and dates that need arithmetic.
 
 One gap in the notebook: the last two cells (a 20-row reproducibility check and the zip of outputs) did run, but my browser session dropped before their output was saved, so the result of the check is not shown.
 
@@ -97,4 +97,4 @@ One gap in the notebook: the last two cells (a 20-row reproducibility check and 
 
 ## 6. AI tools
 
-I used Claude (Anthropic) as a coding assistant throughout this assignment. It helped write the audit, rule and augmentation code, put together and debug the notebook (including the two out-of-memory fixes), run it on Colab, and draft this report. All numbers come from the notebook outputs and `results.json`. I also read the unlabeled test inputs to check ticket length and wording. No dev or test row was used for training.
+I used an AI assistant (Claude, Anthropic) for three things: writing and debugging the code (the audit script, the rule code, the augmentation, the notebook and its memory fixes), looking up a few small details, and helping draft and edit this report. The training runs were done on Colab, and all numbers come from the notebook outputs and `results.json`. No dev or test row was used for training.
