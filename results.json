@@ -1,0 +1,75 @@
+{
+ "baseline_fixed_prompt": {
+  "exact": 0.0,
+  "field_acc": 0.0,
+  "json_valid": 0.0,
+  "sample": "```json\n{\n  \"status\": \"New\",\n  \"priority\": \"High\",\n  \"category\": \"Card Activation\",\n  \"description\": \"User received an activation request for their card but has not yet been able to use it. They need assistance with activating and using the card.\",\n  \"ticket_number\": \"#54047\"\n}\n```"
+ },
+ "baseline_rules_in_prompt": {
+  "exact": 0.005,
+  "field_acc": 0.3775,
+  "json_valid": 0.625,
+  "sample": "{\n  \"category\": \"kyc\",\n  \"priority\": \"P3\",\n  \"amount_paise\": null,\n  \"txn_date\": null,\n  \"txn_id\": null,\n  \"channel\": null,\n  \"language\": \"en\",\n  \"needs_human\": true\n}"
+ },
+ "A_clean_r16_16bit": {
+  "exact": 0.86,
+  "field_acc": 0.9731,
+  "json_valid": 1.0,
+  "note": "reference: cleaned data, 16-bit LoRA, r=16, lr 2e-4, 3 epochs",
+  "rows": 1274,
+  "trainable_params": 18464768,
+  "peak_gpu_gb": 4.79,
+  "train_min": 12.6,
+  "final_loss": 0.0015
+ },
+ "B_raw_data": {
+  "exact": 0.825,
+  "field_acc": 0.9719,
+  "json_valid": 1.0,
+  "note": "exp 1: raw train.jsonl instead of cleaned",
+  "rows": 1445,
+  "trainable_params": 18464768,
+  "peak_gpu_gb": 4.81,
+  "train_min": 14.3,
+  "final_loss": 0.0137
+ },
+ "C_qlora_4bit": {
+  "exact": 0.87,
+  "field_acc": 0.9769,
+  "json_valid": 1.0,
+  "note": "exp 2: base model in 4-bit NF4 (QLoRA) instead of 16-bit",
+  "rows": 1274,
+  "trainable_params": 18464768,
+  "peak_gpu_gb": 4.03,
+  "train_min": 15.9,
+  "final_loss": 0.0015
+ },
+ "D_rank4": {
+  "exact": 0.815,
+  "field_acc": 0.965,
+  "json_valid": 1.0,
+  "note": "exp 3: LoRA rank 4 instead of 16",
+  "rows": 1274,
+  "trainable_params": 4616192,
+  "peak_gpu_gb": 4.63,
+  "train_min": 12.7,
+  "final_loss": 0.004
+ },
+ "E_clean_plus_aug": {
+  "exact": 0.95,
+  "field_acc": 0.99,
+  "json_valid": 1.0,
+  "note": "exp 4 (own idea): + 500 rule-targeted synthetic rows",
+  "rows": 1774,
+  "trainable_params": 18464768,
+  "peak_gpu_gb": 4.8,
+  "train_min": 17.3,
+  "final_loss": 0.001
+ },
+ "FINAL": {
+  "exact": 0.95,
+  "field_acc": 0.99,
+  "json_valid": 1.0,
+  "note": "E_clean_plus_aug reloaded from adapter/, batch size 1"
+ }
+}
